@@ -209,6 +209,7 @@ button[disabled] {
   left: 0;
   width: 100%;
   z-index: 100%;
+  z-index: 101;
   /* .header__logos */
   /* .header__logo */
   /* .header__button */
