@@ -5497,38 +5497,38 @@ function initSliders() {
     // Ефекти
     // Скроллбар
     /*
-    scrollbar: {
-    	el: '.swiper-scrollbar',
-    	draggable: true,
-    },
-    */
+    	scrollbar: {
+    		el: '.swiper-scrollbar',
+    		draggable: true,
+    	},
+    	*/
     // Кнопки "вліво/вправо"
     navigation: {
       prevEl: ".swiper-button-prev",
       nextEl: ".swiper-button-next"
     },
     /*
-    // Брейкпоінти
-    breakpoints: {
-    	640: {
-    		slidesPerView: 1,
-    		spaceBetween: 0,
-    		autoHeight: true,
+    	// Брейкпоінти
+    	breakpoints: {
+    		640: {
+    			slidesPerView: 1,
+    			spaceBetween: 0,
+    			autoHeight: true,
+    		},
+    		768: {
+    			slidesPerView: 2,
+    			spaceBetween: 20,
+    		},
+    		992: {
+    			slidesPerView: 3,
+    			spaceBetween: 20,
+    		},
+    		1268: {
+    			slidesPerView: 4,
+    			spaceBetween: 30,
+    		},
     	},
-    	768: {
-    		slidesPerView: 2,
-    		spaceBetween: 20,
-    	},
-    	992: {
-    		slidesPerView: 3,
-    		spaceBetween: 20,
-    	},
-    	1268: {
-    		slidesPerView: 4,
-    		spaceBetween: 30,
-    	},
-    },
-    */
+    	*/
     // Події
     on: {
       init: function() {
@@ -5616,13 +5616,76 @@ function initSliders() {
         init: function() {
           const fractionEl = document.querySelector(".swiper-fraction");
           if (fractionEl) {
-            fractionEl.innerHTML = `<span>${String(this.realIndex + 1).padStart(2, "0")}</span> / ${String(this.slides.length).padStart(2, "0")}`;
+            fractionEl.innerHTML = `<span>${String(
+              this.realIndex + 1
+            ).padStart(2, "0")}</span> / ${String(
+              this.slides.length
+            ).padStart(2, "0")}`;
           }
           this.on("slideChange", function() {
             if (fractionEl) {
-              fractionEl.innerHTML = `<span>${String(this.realIndex + 1).padStart(2, "0")}</span> / ${String(this.slides.length).padStart(2, "0")}`;
+              fractionEl.innerHTML = `<span>${String(
+                this.realIndex + 1
+              ).padStart(2, "0")}</span> / ${String(
+                this.slides.length
+              ).padStart(2, "0")}`;
             }
           });
+        }
+      }
+    });
+  }
+  if (document.querySelector(".services__slider")) {
+    new Swiper(".services__slider", {
+      // <- Вказуємо склас потрібного слайдера
+      // Підключаємо модулі слайдера
+      // для конкретного випадку
+      modules: [Navigation],
+      // slidesOffsetBefore: 18,
+      slidesPerView: 4,
+      centeredSlides: false,
+      spaceBetween: 18,
+      autoHeight: true,
+      speed: 800,
+      slideToClickedSlide: true,
+      //touchRatio: 0,
+      // simulateTouch: false,
+      loop: true,
+      //preloadImages: false,
+      //lazy: true,
+      // Кнопки "вліво/вправо"
+      // navigation: {
+      // 	prevEl: ".swiper-button-prev",
+      // 	nextEl: ".swiper-button-next",
+      // },
+      /*
+      // Брейкпоінти
+      breakpoints: {
+      	640: {
+      		slidesPerView: 1,
+      		spaceBetween: 0,
+      		autoHeight: true,
+      	},
+      	768: {
+      		slidesPerView: 2,
+      		spaceBetween: 20,
+      	},
+      	992: {
+      		slidesPerView: 3,
+      		spaceBetween: 20,
+      	},
+      	1268: {
+      		slidesPerView: 4,
+      		spaceBetween: 30,
+      	},
+      },
+      */
+      // Події
+      on: {
+        init: function() {
+          setTimeout(() => {
+            this.updateAutoHeight();
+          }, 100);
         }
       }
     });
