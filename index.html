@@ -5,8 +5,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="shortcut icon" href="./assets/img/favicon.ico">
 		<title>Agrocult</title>
-		<script type="module" crossorigin="" src="./js/index.min.js?v=1750252579059"></script>
-		<link rel="stylesheet" crossorigin="" href="./css/index.min.css?v=1750252579059">
+		<script type="module" crossorigin="" src="./js/index.min.js?v=1750255529687"></script>
+		<link rel="stylesheet" crossorigin="" href="./css/index.min.css?v=1750255529687">
 	</head>
 	<body>
 		<div class="wrapper">
@@ -416,9 +416,23 @@
 				</section>
 				<section class="section page__services services">
 					<div class="services__container">
-						<div class="services__content">
-							<div class="services__label label">Послуги</div>
-							<h2 class="services__title title">Послуги, які економлять ваш час і примножують прибуток</h2>
+						<div class="services__body">
+							<div class="services__content">
+								<div class="services__label label">Послуги</div>
+								<h2 class="services__title title">Послуги, які економлять ваш час і примножують прибуток</h2>
+							</div>
+							<div class="services__navigation">
+								<div class="swiper-button-prev">
+									<svg xmlns="http://www.w3.org/2000/svg" width="28" height="18" viewbox="0 0 28 18" fill="none">
+										<path d="M1.94537 9L1.22166 8.26826L0.5 9L1.22166 9.73174L1.94537 9ZM2.66908 9.73174L10.8466 1.46348L9.39914 0L1.22166 8.26826L2.66908 9.73174ZM1.22166 9.73174L9.39914 18L10.8466 16.5365L2.66908 8.26826L1.22166 9.73174ZM1.94537 10.0335L27.5 10.0335V7.96647L1.94537 7.96647L1.94537 10.0335Z"></path>
+									</svg>
+								</div>
+								<div class="swiper-button-next">
+									<svg xmlns="http://www.w3.org/2000/svg" width="28" height="18" viewbox="0 0 28 18" fill="none">
+										<path d="M26.0546 9L26.7783 9.73174L27.5 9L26.7783 8.26826L26.0546 9ZM25.3309 8.26826L17.1534 16.5365L18.6009 18L26.7783 9.73174L25.3309 8.26826ZM26.7783 8.26826L18.6009 0L17.1534 1.46348L25.3309 9.73174L26.7783 8.26826ZM26.0546 7.96647L0.5 7.96647V10.0335L26.0546 10.0335V7.96647Z"></path>
+									</svg>
+								</div>
+							</div>
 						</div>
 						<div data-fls-slider="" class="services__slider swiper">
 							<div class="services__wrapper swiper-wrapper">
@@ -472,7 +486,7 @@
 											</picture>
 										</div>
 										<div class="services-slide__content">
-											<span class="services-slide__number">01</span>
+											<span class="services-slide__number">02</span>
 											<h3 class="services-slide__title">Виробництво та фасування соєвої олії та макухи</h3>
 											<div class="services-slide__text text">
 												Ми самостійно переробляємо сою, забезпечуючи стабільну наявність продукції та можливість фасування під потреби замовника.
@@ -501,7 +515,7 @@
 											</picture>
 										</div>
 										<div class="services-slide__content">
-											<span class="services-slide__number">01</span>
+											<span class="services-slide__number">03</span>
 											<h3 class="services-slide__title">Виробництво та фасування соєвої олії та макухи</h3>
 											<div class="services-slide__text text">
 												Ми самостійно переробляємо сою, забезпечуючи стабільну наявність продукції та можливість фасування під потреби замовника.
@@ -514,15 +528,23 @@
 										<div class="services-slide__label hero__label">Виробництво</div>
 										<div class="services-slide__icon --icon-button item-product__button"></div>
 										<h3 class="services-slide__title">Виробництво та фасування соєвої олії та макухи</h3>
-										<img src="assets/img/Services/04jpg" alt="Image">
+										<picture>
+											<source media="(max-width: 600px)" srcset="./assets/img/Services/04-600.webp" type="image/webp">
+											<source media="(max-width: 1200px)" srcset="./assets/img/Services/04-1200.webp" type="image/webp">
+											<img alt="Image" src="./assets/img/Services/04.webp">
+										</picture>
 									</div>
 									<div class="services-slide__active">
 										<div class="services-slide__image">
 											<div class="services-slide__label hero__label">Виробництво</div>
-											<img src="assets/img/Services/04jpg" alt="Image">
+											<picture>
+												<source media="(max-width: 600px)" srcset="./assets/img/Services/04-600.webp" type="image/webp">
+												<source media="(max-width: 1200px)" srcset="./assets/img/Services/04-1200.webp" type="image/webp">
+												<img alt="Image" src="./assets/img/Services/04.webp">
+											</picture>
 										</div>
 										<div class="services-slide__content">
-											<span class="services-slide__number">01</span>
+											<span class="services-slide__number">04</span>
 											<h3 class="services-slide__title">Виробництво та фасування соєвої олії та макухи</h3>
 											<div class="services-slide__text text">
 												Ми самостійно переробляємо сою, забезпечуючи стабільну наявність продукції та можливість фасування під потреби замовника.
@@ -560,6 +582,10 @@
 									</div>
 								</acticle>
 							</div>
+							<button data-fls-button="" type="button" class="services__button button button--green">
+								<div class="button__text">Замовити послугу</div>
+								<div class="button__icon --icon-button"></div>
+							</button>
 						</div>
 					</div>
 				</section>

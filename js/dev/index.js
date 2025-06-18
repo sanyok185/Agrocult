@@ -5649,15 +5649,16 @@ function initSliders() {
       speed: 800,
       slideToClickedSlide: true,
       //touchRatio: 0,
+      allowTouchMove: false,
       // simulateTouch: false,
       loop: true,
       //preloadImages: false,
       //lazy: true,
       // Кнопки "вліво/вправо"
-      // navigation: {
-      // 	prevEl: ".swiper-button-prev",
-      // 	nextEl: ".swiper-button-next",
-      // },
+      navigation: {
+        prevEl: ".services__navigation .swiper-button-prev",
+        nextEl: ".services__navigation .swiper-button-next"
+      },
       /*
       // Брейкпоінти
       breakpoints: {
