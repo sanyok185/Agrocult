@@ -149,6 +149,9 @@ let bodyLock = (delay = 500) => {
     }, delay);
   }
 };
+function uniqArray(array) {
+  return array.filter((item, index, self) => self.indexOf(item) === index);
+}
 function dataMediaQueries(array, dataSetValue) {
   const media = Array.from(array).filter((item) => item.dataset[dataSetValue]).map((item) => {
     const [value, type = "max"] = item.dataset[dataSetValue].split(",");
@@ -318,6 +321,30 @@ function tabs() {
       e.preventDefault();
     }
   }
+  tabs2.forEach((tabsBlock, index) => {
+    tabsBlock.classList.add("--tab-init");
+    tabsBlock.setAttribute("data-fls-tabs-index", index);
+    tabsBlock.addEventListener("click", setTabsAction);
+    initTabs(tabsBlock);
+  });
+  tabs2.forEach((tabsBlock) => {
+    const tabsTitles = Array.from(tabsBlock.querySelectorAll("[data-fls-tabs-title]")).filter((item) => item.closest("[data-fls-tabs]") === tabsBlock);
+    if (tabsTitles.length > 1) {
+      let currentIndex = tabsTitles.findIndex((tab) => tab.classList.contains("--tab-active"));
+      const autoSwitch = setInterval(() => {
+        if (tabsBlock.querySelector(".--slide")) return;
+        tabsTitles[currentIndex].classList.remove("--tab-active");
+        currentIndex = (currentIndex + 1) % tabsTitles.length;
+        tabsTitles[currentIndex].classList.add("--tab-active");
+        setTabsStatus(tabsBlock);
+      }, 5e3);
+      tabsTitles.forEach((tab) => {
+        tab.addEventListener("click", () => {
+          clearInterval(autoSwitch);
+        }, { once: true });
+      });
+    }
+  });
 }
 window.addEventListener("load", tabs);
 function isObject$1(obj) {
@@ -5871,8 +5898,8 @@ function initSliders() {
       },
       // Кнопки "вліво/вправо"
       navigation: {
-        prevEl: ".swiper-button-prev",
-        nextEl: ".swiper-button-next"
+        prevEl: ".about__slider .swiper-button-prev",
+        nextEl: ".about__slider .swiper-button-next"
       },
       /*
       // Брейкпоінти
@@ -5920,7 +5947,7 @@ function initSliders() {
       }
     });
   }
-  if (document.querySelector(".services__slider")) {
+  if (document.querySelector(".services__slider") && window.innerWidth > 480) {
     new Swiper(".services__slider", {
       // <- Вказуємо склас потрібного слайдера
       // Підключаємо модулі слайдера
@@ -5944,28 +5971,22 @@ function initSliders() {
         prevEl: ".services__navigation .swiper-button-prev",
         nextEl: ".services__navigation .swiper-button-next"
       },
-      /*
       // Брейкпоінти
       breakpoints: {
-      	640: {
-      		slidesPerView: 1,
-      		spaceBetween: 0,
-      		autoHeight: true,
-      	},
-      	768: {
-      		slidesPerView: 2,
-      		spaceBetween: 20,
-      	},
-      	992: {
-      		slidesPerView: 3,
-      		spaceBetween: 20,
-      	},
-      	1268: {
-      		slidesPerView: 4,
-      		spaceBetween: 30,
-      	},
+        480: {
+          slidesPerView: 1,
+          spaceBetween: 15
+        },
+        768: {
+          slidesPerView: 3,
+          spaceBetween: 15
+        },
+        992: {
+          slidesPerView: 4,
+          spaceBetween: 10
+        },
+        1268: { spaceBetween: 18 }
       },
-      */
       // Події
       on: {
         init: function() {
@@ -5978,58 +5999,24 @@ function initSliders() {
   }
   if (document.querySelector(".certificates__slider")) {
     new Swiper(".certificates__slider", {
-      // <- Вказуємо склас потрібного слайдера
-      // Підключаємо модулі слайдера
-      // для конкретного випадку
       modules: [Navigation, EffectFade, Autoplay],
       observer: true,
       observeParents: true,
-      slidesPerView: 1,
+      slidesPerView: 5,
       spaceBetween: 0,
-      //autoHeight: true,
       speed: 800,
-      //touchRatio: 0,
+      loop: true,
       simulateTouch: true,
-      //loop: true,
-      //preloadImages: false,
-      //lazy: true,
-      // Ефекти
       effect: "fade",
-      // fadeEffect: {
-      // 	crossFade: true,
+      fadeEffect: { crossFade: true },
+      // autoplay: {
+      // 	delay: 5000,
+      // 	disableOnInteraction: true,
       // },
-      autoplay: {
-        delay: 5e3,
-        disableOnInteraction: true
-      },
-      // Кнопки "вліво/вправо"
       navigation: {
-        prevEl: ".certificates__controlls .swiper-button-prev",
-        nextEl: ".certificates__controlls .swiper-button-next"
+        prevEl: ".certificates__navigation .swiper-button-prev",
+        nextEl: ".certificates__navigation .swiper-button-next"
       },
-      /*
-      // Брейкпоінти
-      breakpoints: {
-      	640: {
-      		slidesPerView: 1,
-      		spaceBetween: 0,
-      		autoHeight: true,
-      	},
-      	768: {
-      		slidesPerView: 2,
-      		spaceBetween: 20,
-      	},
-      	992: {
-      		slidesPerView: 3,
-      		spaceBetween: 20,
-      	},
-      	1268: {
-      		slidesPerView: 4,
-      		spaceBetween: 30,
-      	},
-      },
-      */
-      // Події
       on: {
         init: function() {
           const fractionEl = document.querySelector(
@@ -6042,15 +6029,18 @@ function initSliders() {
               this.slides.length
             ).padStart(2, "0")}`;
           }
-          this.on("slideChange", function() {
-            if (fractionEl) {
-              fractionEl.innerHTML = `<span>${String(
-                this.realIndex + 1
-              ).padStart(2, "0")}</span> / ${String(
-                this.slides.length
-              ).padStart(2, "0")}`;
-            }
-          });
+        },
+        slideChange: function() {
+          const fractionEl = document.querySelector(
+            ".certificates__fraction"
+          );
+          if (fractionEl) {
+            fractionEl.innerHTML = `<span>${String(
+              this.realIndex + 1
+            ).padStart(2, "0")}</span> / ${String(
+              this.slides.length
+            ).padStart(2, "0")}`;
+          }
         }
       }
     });
@@ -6185,6 +6175,124 @@ class DynamicAdapt {
 if (document.querySelector("[data-fls-dynamic]")) {
   window.addEventListener("load", () => new DynamicAdapt());
 }
+class ScrollWatcher {
+  constructor(props) {
+    let defaultConfig = {
+      logging: true
+    };
+    this.config = Object.assign(defaultConfig, props);
+    this.observer;
+    !document.documentElement.classList.contains("watcher") ? this.scrollWatcherRun() : null;
+  }
+  // Оновлюємо конструктор
+  scrollWatcherUpdate() {
+    this.scrollWatcherRun();
+  }
+  // Запускаємо конструктор
+  scrollWatcherRun() {
+    document.documentElement.classList.add("watcher");
+    this.scrollWatcherConstructor(document.querySelectorAll("[data-fls-watcher]"));
+  }
+  // Конструктор спостерігачів
+  scrollWatcherConstructor(items) {
+    if (items.length) {
+      let uniqParams = uniqArray(Array.from(items).map(function(item) {
+        if (item.dataset.flsWatcher === "navigator" && !item.dataset.flsWatcherThreshold) {
+          let valueOfThreshold;
+          if (item.clientHeight > 2) {
+            valueOfThreshold = window.innerHeight / 2 / (item.clientHeight - 1);
+            if (valueOfThreshold > 1) {
+              valueOfThreshold = 1;
+            }
+          } else {
+            valueOfThreshold = 1;
+          }
+          item.setAttribute(
+            "data-fls-watcher-threshold",
+            valueOfThreshold.toFixed(2)
+          );
+        }
+        return `${item.dataset.flsWatcherRoot ? item.dataset.flsWatcherRoot : null}|${item.dataset.flsWatcherMargin ? item.dataset.flsWatcherMargin : "0px"}|${item.dataset.flsWatcherThreshold ? item.dataset.flsWatcherThreshold : 0}`;
+      }));
+      uniqParams.forEach((uniqParam) => {
+        let uniqParamArray = uniqParam.split("|");
+        let paramsWatch = {
+          root: uniqParamArray[0],
+          margin: uniqParamArray[1],
+          threshold: uniqParamArray[2]
+        };
+        let groupItems = Array.from(items).filter(function(item) {
+          let watchRoot = item.dataset.flsWatcherRoot ? item.dataset.flsWatcherRoot : null;
+          let watchMargin = item.dataset.flsWatcherMargin ? item.dataset.flsWatcherMargin : "0px";
+          let watchThreshold = item.dataset.flsWatcherThreshold ? item.dataset.flsWatcherThreshold : 0;
+          if (String(watchRoot) === paramsWatch.root && String(watchMargin) === paramsWatch.margin && String(watchThreshold) === paramsWatch.threshold) {
+            return item;
+          }
+        });
+        let configWatcher = this.getScrollWatcherConfig(paramsWatch);
+        this.scrollWatcherInit(groupItems, configWatcher);
+      });
+    }
+  }
+  // Функція створення налаштувань
+  getScrollWatcherConfig(paramsWatch) {
+    let configWatcher = {};
+    if (document.querySelector(paramsWatch.root)) {
+      configWatcher.root = document.querySelector(paramsWatch.root);
+    } else if (paramsWatch.root !== "null") ;
+    configWatcher.rootMargin = paramsWatch.margin;
+    if (paramsWatch.margin.indexOf("px") < 0 && paramsWatch.margin.indexOf("%") < 0) {
+      return;
+    }
+    if (paramsWatch.threshold === "prx") {
+      paramsWatch.threshold = [];
+      for (let i = 0; i <= 1; i += 5e-3) {
+        paramsWatch.threshold.push(i);
+      }
+    } else {
+      paramsWatch.threshold = paramsWatch.threshold.split(",");
+    }
+    configWatcher.threshold = paramsWatch.threshold;
+    return configWatcher;
+  }
+  // Функція створення нового спостерігача зі своїми налаштуваннями
+  scrollWatcherCreate(configWatcher) {
+    this.observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        this.scrollWatcherCallback(entry, observer);
+      });
+    }, configWatcher);
+  }
+  // Функція ініціалізації спостерігача зі своїми налаштуваннями
+  scrollWatcherInit(items, configWatcher) {
+    this.scrollWatcherCreate(configWatcher);
+    items.forEach((item) => this.observer.observe(item));
+  }
+  // Функція обробки базових дій точок спрацьовування
+  scrollWatcherIntersecting(entry, targetElement) {
+    if (entry.isIntersecting) {
+      !targetElement.classList.contains("--watcher-view") ? targetElement.classList.add("--watcher-view") : null;
+    } else {
+      targetElement.classList.contains("--watcher-view") ? targetElement.classList.remove("--watcher-view") : null;
+    }
+  }
+  // Функція відключення стеження за об'єктом
+  scrollWatcherOff(targetElement, observer) {
+    observer.unobserve(targetElement);
+  }
+  // Функція обробки спостереження
+  scrollWatcherCallback(entry, observer) {
+    const targetElement = entry.target;
+    this.scrollWatcherIntersecting(entry, targetElement);
+    targetElement.hasAttribute("data-fls-watcher-once") && entry.isIntersecting ? this.scrollWatcherOff(targetElement, observer) : null;
+    document.dispatchEvent(new CustomEvent("watcherCallback", {
+      detail: {
+        entry
+      }
+    }));
+  }
+}
+document.querySelector("[data-fls-watcher]") ? window.addEventListener("load", () => new ScrollWatcher({})) : null;
 function pageNavigation() {
   document.addEventListener("click", pageNavigationAction);
   document.addEventListener("watcherCallback", pageNavigationAction);
@@ -6280,3 +6388,12 @@ document.querySelectorAll(".swiper-button-next, .swiper-button-prev").forEach((b
     setTimeout(() => btn.classList.remove("pressed"), 150);
   });
 });
+if (window.innerWidth < 480) {
+  const slides = document.querySelectorAll(".services__slide");
+  slides.forEach((slide2) => {
+    slide2.addEventListener("click", () => {
+      slides.forEach((s) => s.classList.remove("active-mobile"));
+      slide2.classList.add("active-mobile");
+    });
+  });
+}
