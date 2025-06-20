@@ -5903,28 +5903,6 @@ function initSliders() {
         prevEl: ".about__slider .swiper-button-prev",
         nextEl: ".about__slider .swiper-button-next"
       },
-      /*
-      // Брейкпоінти
-      breakpoints: {
-      	640: {
-      		slidesPerView: 1,
-      		spaceBetween: 0,
-      		autoHeight: true,
-      	},
-      	768: {
-      		slidesPerView: 2,
-      		spaceBetween: 20,
-      	},
-      	992: {
-      		slidesPerView: 3,
-      		spaceBetween: 20,
-      	},
-      	1268: {
-      		slidesPerView: 4,
-      		spaceBetween: 30,
-      	},
-      },
-      */
       // Події
       on: {
         init: function() {
@@ -5960,7 +5938,7 @@ function initSliders() {
       centeredSlides: false,
       spaceBetween: 18,
       autoHeight: true,
-      speed: 800,
+      speed: 1e3,
       slideToClickedSlide: true,
       //touchRatio: 0,
       allowTouchMove: false,
@@ -6394,8 +6372,12 @@ if (window.innerWidth < 480) {
   const slides = document.querySelectorAll(".services__slide");
   slides.forEach((slide2) => {
     slide2.addEventListener("click", () => {
-      slides.forEach((s) => s.classList.remove("active-mobile"));
-      slide2.classList.add("active-mobile");
+      if (slide2.classList.contains("active-mobile")) {
+        slide2.classList.remove("active-mobile");
+      } else {
+        slides.forEach((s) => s.classList.remove("active-mobile"));
+        slide2.classList.add("active-mobile");
+      }
     });
   });
 }
