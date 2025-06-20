@@ -5802,7 +5802,8 @@ function initSliders() {
     //autoHeight: true,
     speed: 800,
     //touchRatio: 0,
-    //simulateTouch: false,
+    allowTouchMove: false,
+    // simulateTouch: false,
     //loop: true,
     //preloadImages: false,
     //lazy: true,
@@ -5874,7 +5875,7 @@ function initSliders() {
       observer: true,
       observeParents: true,
       slidesPerView: 1,
-      spaceBetween: 20,
+      spaceBetween: 0,
       //autoHeight: true,
       speed: 800,
       //touchRatio: 0,
@@ -5884,6 +5885,7 @@ function initSliders() {
       //lazy: true,
       // Ефекти
       effect: "fade",
+      fadeEffect: { crossFade: true },
       autoplay: {
         delay: 5e3,
         disableOnInteraction: false
